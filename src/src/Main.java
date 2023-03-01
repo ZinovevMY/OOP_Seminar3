@@ -1,15 +1,21 @@
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class Main {
     public static void main(String[] args) {
-        LinkList<Integer> intList = new LinkList<>();
+        LinkList intList = new LinkList();
         intList.add(10);
         intList.add(15);
         intList.add(20);
         intList.add(25);
 
-        intList.print();
-        System.out.println("-------");
+        Iterator iter = intList.iterator();
 
-        intList.remove(20);
-        intList.print();
+        intList.remove(15);
+        while (iter.hasNext()){
+            System.out.println(iter.next().toString());
+        }
+
+
     }
 }

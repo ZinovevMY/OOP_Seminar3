@@ -2,9 +2,15 @@ import java.util.Iterator;
 
 public class LinkList<T> implements Iterable<T>{
     private Node head;
+    private int size;
 
     public LinkList(){
         head = null;
+        size = 0;
+    }
+
+    public int getSize(){
+        return size;
     }
 
     public void add(T data){
@@ -19,23 +25,49 @@ public class LinkList<T> implements Iterable<T>{
             }
             currNode.next = newNode;
         }
+        size++;
     }
 
     @Override
     public Iterator<T> iterator() {
-        Iterator<T> iter = new Iterator<T>() {
-            Node current = head;
-            @Override
-            public boolean hasNext() {
-                return current.next == null;
-            }
+//        Iterator iter = new Iterator() {
+//            Node current = head;
+//            @Override
+//
+//            @Override
+//            public T next() {
+//                if (elementIndex != -1){
+//                    current = current.next;
+//                }
+//                elementIndex++;
+//                return (T) current.data;
+//            }
+//        };
+        return new Iter();
+    }
+
+    protected class Iter implements Iterator<T>{
+        private static int elementIndex = -1;
+
+        public static int getIndex(){
+            return elementIndex;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return elementIndex < getSize() - 1;
+        }
 
             @Override
             public T next() {
-                return (T) current.next;
+                if (elementIndex != -1){
+                    head = head.next;
+                }
+                elementIndex++;
+                return (T) head.getData();
             }
-        };
-        return iter;
+
+
     }
 
 
@@ -46,6 +78,15 @@ public class LinkList<T> implements Iterable<T>{
         public Node(T data){
             this.data = data;
             this.next = null;
+        }
+
+        public T getData(){
+            return data;
+        }
+
+        @Override
+        public String toString() {
+            return (String)data;
         }
     }
 
@@ -60,21 +101,11 @@ public class LinkList<T> implements Iterable<T>{
                 } else {
                     previous.next = current.next;
                 }
+                size--;
             }
             previous = current;
             current = current.next;
         }
     }
 
-    public void print(){
-        Node current = head;
-
-        if (head != null){
-            System.out.println(head.data);
-        }
-        while (current.next != null){
-            current = current.next;
-            System.out.println(current.data);
-        }
-    }
 }
